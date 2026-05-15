@@ -1,0 +1,19 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/api/*.log
+    json.keys_under_root: true
+    json.add_error_key: true
+    json.message_key: "@mt"
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  index: "movieapp-logs-%{+yyyy.MM.dd}"
+
+setup.kibana:
+  host: "kibana:5601"
+
+setup.ilm.enabled: false
+setup.template.name: "movieapp-logs"
+setup.template.pattern: "movieapp-logs-*"
